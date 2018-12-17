@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Monitoring Library</string>
+    <string name="monitoringPref">monitoringPrefFile</string>
+    <string name="AppIsInit">AppInit</string>
+    <string name="IdCounter">IdStartCounter</string>
+    <string name="GpsStatus">Gps Status</string>
+    <string name="ToolsStatus">Tools Status</string>
+    <string name="DnsIdCounter">DNS Id Counter</string>
+    <string name="HttpIdCounter">Http Id Counter</string>
+    <string name="deviceID">deviceID</string>
+</resources>

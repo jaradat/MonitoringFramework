@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "297055912376",
+    "firebase_url": "https://monitoringtool-e7f9e.firebaseio.com",
+    "project_id": "monitoringtool-e7f9e",
+    "storage_bucket": "monitoringtool-e7f9e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:297055912376:android:a9ba4d0a5cc9af60",
+        "android_client_info": {
+          "package_name": "com.ma.monitoringlibrary"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "297055912376-jud3e36m1l175eelh351tuqudo5o3r9g.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ma.monitoringlibrary",
+            "certificate_hash": "2ae8ed0d19d79438de2c23033aada8d2c5136200"
+          }
+        },
+        {
+          "client_id": "297055912376-dt8d135gilqkec8mmllpuoqmkr0lk45v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDCXqgvxWQS7pZ8moIntB1zDXM8BTNOiRU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "297055912376-dt8d135gilqkec8mmllpuoqmkr0lk45v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
