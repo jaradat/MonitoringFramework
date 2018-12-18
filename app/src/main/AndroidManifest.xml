@@ -21,7 +21,7 @@
 
         <meta-data
             android:name="DeveloperID"
-            android:value="abcXJ434" />
+            android:value="1" />
 
         <meta-data
             android:name="AppID"

@@ -110,6 +110,19 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         SharedPreferences prefs = getApplicationContext().getApplicationContext().getSharedPreferences(getApplicationContext().getString(R.string.monitoringPref), MODE_PRIVATE);
         prefs.edit().putString("token", token).apply();
 
+        ApplicationInfo app = null;
+        try {
+            app = getApplicationContext().getPackageManager().getApplicationInfo(getApplicationContext().getPackageName(), PackageManager.GET_META_DATA);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        Bundle bundle = app.metaData;
+        int developerID = bundle.getInt("DeveloperID");
+        String appID = bundle.getString("AppID");
+
+        prefs.edit().putInt("developerID",developerID).apply();
+        prefs.edit().putString("appID",appID).apply();
+
         boolean firstGenrateToken = prefs.getBoolean("firstGenrateToken", true);
         if (firstGenrateToken) {
             prefs.edit().putBoolean("firstGenrateToken", false).apply();
@@ -134,8 +147,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         } else {
             //TODO update token on server
-            String developerID = prefs.getString("developerID","");
-            String appID = prefs.getString("appID","");
             String serialNumber = prefs.getString("serialNumber","");
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
             String currentDateTime = sdf.format(new Date());
