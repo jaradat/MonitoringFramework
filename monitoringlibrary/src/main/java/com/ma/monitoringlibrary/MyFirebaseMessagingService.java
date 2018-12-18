@@ -77,7 +77,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         // Check if message contains a notification payload.
         if (remoteMessage.getNotification() != null) {
             Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
-            /*Map<String, String> params = remoteMessage.getData();
+            Map<String, String> params = remoteMessage.getData();
             JSONObject object = new JSONObject(params);
             String type_name = null;
             float percentage = 1;
@@ -88,7 +88,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 e.printStackTrace();
             }
             //rest of the code
-            prefs.edit().putFloat(type_name + " percentage",percentage).apply();*/
+            prefs.edit().putFloat(type_name + " percentage",percentage).apply();
         }
 
         // Also if you intend on generating your own notifications as a result of a received FCM

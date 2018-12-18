@@ -89,9 +89,9 @@ public class MainActivity extends AppCompatActivity {
     public void start_end(View view) {
         int id = view.getId();
         if (id == R.id.start)
-            idMeasurement = measurement.start(Measurement.Type.HTTP);
+            idMeasurement = measurement.start(Measurement.Type.HTTP_REQUEST);
         else
-            measurement.end(Measurement.Type.HTTP, idMeasurement);
+            measurement.end(Measurement.Type.HTTP_REQUEST, idMeasurement);
 
     }
 }

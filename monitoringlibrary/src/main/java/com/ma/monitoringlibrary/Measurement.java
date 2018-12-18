@@ -85,15 +85,21 @@ public class Measurement {
 
     }
 
+    private void getPercentage()
+    {
+        PercentageHttp = preferences.getFloat(Type.HTTP_REQUEST + " percentage", 1);
+        PercentageDNS = preferences.getFloat(Type.DNS_REQUEST + " percentage", 1);
+    }
+
     public synchronized int start(Type type) {
         int id = 1;
         if (!preferences.getBoolean(context.getString(R.string.ToolsStatus), true))
             return -1;
 
-        if (type == Type.HTTP) {
+        if (type == Type.HTTP_REQUEST) {
             id = preferences.getInt(context.getString(R.string.HttpIdCounter), 1);
             preferences.edit().putInt(context.getString(R.string.HttpIdCounter), id + 1).apply();
-        } else if (type == Type.DNS) {
+        } else if (type == Type.DNS_REQUEST) {
             id = preferences.getInt(context.getString(R.string.DnsIdCounter), 1);
             preferences.edit().putInt(context.getString(R.string.DnsIdCounter), id + 1).apply();
         }
@@ -149,7 +155,8 @@ public class Measurement {
     }
 
     private void newReportingPackage(int currentId, Type type) {
-        int numberOfItems = (int) (queuingRate * (type == Type.HTTP ? PercentageHttp : PercentageDNS));
+        getPercentage();
+        int numberOfItems = (int) (queuingRate * (type == Type.HTTP_REQUEST ? PercentageHttp : PercentageDNS));
 
         int firstId = (currentId - queuingRate) + 1;
         JSONObject object = new JSONObject();
@@ -159,7 +166,7 @@ public class Measurement {
             ApplicationInfo app = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
             Bundle bundle = app.metaData;
 
-            String developerID = bundle.getString("DeveloperID");
+            int developerID = bundle.getInt("DeveloperID");
             String appID = bundle.getString("AppID");
             String deviceID = preferences.getString(context.getString(R.string.deviceID), "not Yet");
 
@@ -219,7 +226,8 @@ public class Measurement {
 
 
         try {
-            int numberOfItem = (int) (queuingRate * (type == Type.HTTP ? PercentageHttp : PercentageDNS));
+            getPercentage();
+            int numberOfItem = (int) (queuingRate * (type == Type.HTTP_REQUEST ? PercentageHttp : PercentageDNS));
             int firstId = (currentId - queuingRate) + 1;
 
             JSONObject packageObject = new JSONObject(JsonString);
@@ -289,8 +297,9 @@ public class Measurement {
 
 
     public enum Type {
-        HTTP,
-        DNS
+        HTTP_REQUEST,
+        DNS_REQUEST,
+        MEM_ALLOC
     }
 
     public class UploadTimeMeasurementsTask extends AsyncTask<String,String,String>

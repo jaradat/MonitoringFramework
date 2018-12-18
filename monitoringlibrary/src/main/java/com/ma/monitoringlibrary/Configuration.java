@@ -209,10 +209,10 @@ class Configuration {
             ApplicationInfo app = activity.getPackageManager().getApplicationInfo(activity.getPackageName(), PackageManager.GET_META_DATA);
             Bundle bundle = app.metaData;
 
-            String developerID = bundle.getString("DeveloperID");
+            int developerID = bundle.getInt("DeveloperID");
             String appID = bundle.getString("AppID");
 
-            prefs.edit().putString("developerID",developerID).apply();
+            prefs.edit().putInt("developerID",developerID).apply();
             prefs.edit().putString("appID",appID).apply();
 
 

@@ -8,8 +8,6 @@ version='v0.1-alpha'
 android {
     compileSdkVersion 28
 
-
-
     defaultConfig {
         minSdkVersion 17
         targetSdkVersion 28
@@ -42,5 +40,5 @@ dependencies {
     implementation 'com.google.android.gms:play-services-location:16.0.0'
     implementation files('libs/ksoap2-android-assembly-2.6.2-jar-with-dependencies.jar')
     implementation 'com.google.firebase:firebase-messaging:17.3.4'
-
+    implementation 'com.google.firebase:firebase-core:16.0.6'
 }
