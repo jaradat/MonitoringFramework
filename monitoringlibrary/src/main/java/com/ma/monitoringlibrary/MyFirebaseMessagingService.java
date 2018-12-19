@@ -123,19 +123,20 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         prefs.edit().putInt("developerID",developerID).apply();
         prefs.edit().putString("appID",appID).apply();
 
-        boolean firstGenrateToken = prefs.getBoolean("firstGenrateToken", true);
-        if (firstGenrateToken) {
-            prefs.edit().putBoolean("firstGenrateToken", false).apply();
+        boolean firstGenratedToken = prefs.getBoolean("firstGenratedToken", true);
+        if (firstGenratedToken) {
+            prefs.edit().putBoolean("firstGenratedToken", false).apply();
             String compressedPackage = prefs.getString("encryptedPackage", "notCollectedYet");
             if (!compressedPackage.equals("notCollectedYet")) {
 
                 JSONObject data = new JSONObject();
                 try {
                     data.put("encryptedPackage", compressedPackage);//encryptedPackage);
-                    data.put("token", prefs.getString("token", ""));
+                    data.put("token", token);
 
                     Log.e("compression from token", compressedPackage);
                     String data_str = data.toString().replace("\"", "\\\"");
+                    Log.e("token+comp onNewToken", data_str);
                     new Configuration.UploadStatisticsTask().execute(data_str);//encryptedPackage);
 
 
@@ -162,6 +163,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             }
 
             // do what you want
+            Log.e("tokenObj to be updated", tokenObject.toString());
+            //String data_str = data.toString().replace("\"", "\\\"");
             new UpdateTokenTask().execute(tokenObject.toString());
         }
     }
@@ -176,7 +179,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         protected String doInBackground(String... params) {
             String response = updateToken(params[0]);
 
-            Log.e("uploadToken", response);
+            Log.e("updateToken", response);
             return response;
         }
 

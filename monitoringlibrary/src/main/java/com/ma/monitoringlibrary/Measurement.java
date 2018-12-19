@@ -128,8 +128,8 @@ public class Measurement {
 
         SharedPreferences.Editor editor = preferences.edit();
 
-        float longLoc = preferences.getFloat("location long", -1);
-        float latLoc = preferences.getFloat("location lat", -1);
+        float longLoc = preferences.getFloat("location long", 200);
+        float latLoc = preferences.getFloat("location lat", 100);
 
         editor.putFloat("Time total :" + id + "_" + type, measuredTime);
         editor.putFloat("Location long :" + id + "_" + type, longLoc);

@@ -240,14 +240,14 @@ class Configuration {
                 Encryption encryption = new Encryption();
                 String encryptedPackage = encryption.Encrypt(compressedPackage);
 
-                String token=prefs.getString("token", "not genrated");
-                if(token.equals("not genrated")) {
+                String token=prefs.getString("token", "notGeneratedYet");
+                if(token.equals("notGeneratedYet")) {
                     prefs.edit().putString("encryptedPackage",compressedPackage).apply();
-                    //stop method :p hhhh
+                    //stop method
                     return;
                 }else{
-                    //to avoid send data agaien in OnNewToken method
-                    prefs.edit().putBoolean("firstGenrateToken",false).apply();
+                    //to avoid send data again in OnNewToken method
+                    prefs.edit().putBoolean("firstGenratedToken",false).apply();
                 }
 
                 JSONObject data = new JSONObject();
@@ -256,6 +256,8 @@ class Configuration {
 
                 /*TODO Send statisticsObject & token as string*/
                 String data_str  = data.toString().replace("\"","\\\"");
+
+                Log.e("UploadStatistics data", data_str);
                 new UploadStatisticsTask().execute(data_str);
 
                 Log.e("compression", compressedPackage);
@@ -289,7 +291,7 @@ class Configuration {
             {
                 String response = UploadStatistics(params[0]);
 
-                Log.e("UploadStatistics", response);
+                Log.e("UploadStatisticsRespon", response);
                 return response;
             }
 
