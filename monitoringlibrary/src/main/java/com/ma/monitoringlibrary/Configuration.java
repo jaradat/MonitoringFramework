@@ -236,7 +236,7 @@ class Configuration {
 
             String compressedPackage = null;
             try {
-                compressedPackage = Compression.Compress(statisticsObject.toString());
+                compressedPackage = statisticsObject.toString().replace("\"","\\\"");//Compression.Compress(statisticsObject.toString());
                 Encryption encryption = new Encryption();
                 String encryptedPackage = encryption.Encrypt(compressedPackage);
 
@@ -265,9 +265,9 @@ class Configuration {
                 Log.e("SecretKey", encryption.getEncryptedSecretKey());
                 Log.e("token+info", data_str);
 
-            } catch (IOException e) { //compressedPackage);//
+            } /*catch (IOException e) { //compressedPackage);//
                 e.printStackTrace();
-            } catch (Exception e) {
+            }*/ catch (Exception e) {
                 e.printStackTrace();
             }
         } catch (JSONException e) {
