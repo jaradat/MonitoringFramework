@@ -257,7 +257,10 @@ public class Measurement {
                 try {
                     Log.e("origin", String.valueOf(packageObject.toString()));
 
-                    String compressedPackage = Compression.Compress(packageObject.toString());
+                    //Log.e("compression","packageObject.toString() size: " +  packageObject.toString().length());
+
+                    String compressedPackage = Compression.DeflateCompress(packageObject.toString());
+                    //packageObject.toString().replace("\"","\\\"");// w/o compression
                     //   String encryptPackage = new Encryption(String.valueOf(System.currentTimeMillis())).Encrypt(compressedPackage);
 
                     Encryption encryption=new Encryption();
@@ -276,8 +279,8 @@ public class Measurement {
                     //data_str = data_str.replace("}", "}\"");
                     new UploadTimeMeasurementsTask().execute(data_str);
 
-                    Log.e("compression",compressedPackage);
-                    Log.e("encryption", encryptedPackage);
+                    Log.e("compression",compressedPackage );//+ " with size: " +  Compression.Compress(compressedPackage).length());
+                    Log.e("encryption", encryptedPackage );//+ " with size: " +  encryptedPackage);
                     Log.e("SecretKey", encryption.getEncryptedSecretKey());
                     Log.e("all data", data_str);
 
@@ -341,7 +344,7 @@ public class Measurement {
                 connection.setUseCaches(false);
                 connection.setRequestMethod("POST"); // request method post
                 connection.setRequestProperty("Content-Type", "application/json");
-                //connection.setRequestProperty("Content-Length","" + Integer.toString(type.getBytes().length));
+                //connection.setRequestProperty("Accept-Encoding","gzip");
                 connection.setRequestProperty("Content-Language", "en-US");
                 connection.setConnectTimeout(30000); // connection time out
                 connection.setReadTimeout(30000); // read time out
