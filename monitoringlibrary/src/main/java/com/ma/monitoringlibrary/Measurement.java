@@ -41,7 +41,7 @@ public class Measurement {
 
     private Context context;
     private SharedPreferences preferences;
-    private static final int reportingRate = 10;
+    private static final int reportingRate = 25;
     private static final int queuingRate = 10;
 
     private static double PercentageHttp = 0.8;
@@ -259,8 +259,9 @@ public class Measurement {
                     Log.e("origin", String.valueOf(packageObject.toString()));
 
                     //Log.e("compression","packageObject.toString() size: " +  packageObject.toString().length());
+                    String compressedPackage = packageObject.toString().replace("\"","\\\"");// w/o compression
+                    //String compressedPackage = Compression.DeflateCompress(packageObject.toString());
 
-                    String compressedPackage = Compression.DeflateCompress(packageObject.toString());
                     //packageObject.toString().replace("\"","\\\"");// w/o compression
                     //   String encryptPackage = new Encryption(String.valueOf(System.currentTimeMillis())).Encrypt(compressedPackage);
 
