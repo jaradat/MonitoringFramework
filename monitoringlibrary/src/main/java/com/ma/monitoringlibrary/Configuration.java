@@ -237,7 +237,8 @@ class Configuration {
 
             String compressedPackage = null;
             try {
-                compressedPackage = statisticsObject.toString().replace("\"","\\\"");//Compression.Compress(statisticsObject.toString());
+                //compressedPackage = statisticsObject.toString().replace("\"","\\\""); // w/o compression
+                compressedPackage = Compression.DeflateCompress(statisticsObject.toString());
                 Encryption encryption = new Encryption();
                 String encryptedPackage = encryption.Encrypt(compressedPackage);
 
