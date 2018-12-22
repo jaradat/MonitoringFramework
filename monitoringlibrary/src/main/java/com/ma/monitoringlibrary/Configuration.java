@@ -45,6 +45,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.UUID;
 import java.util.zip.GZIPInputStream;
 
 
@@ -198,6 +199,10 @@ class Configuration {
         String serialNumber = android.provider.Settings.Secure.getString
                 (activity.getContentResolver(), android.provider.Settings.Secure.ANDROID_ID);
 
+        if("9774d56d682e549c".equals(serialNumber) || serialNumber == null)
+        {
+            serialNumber = UUID.randomUUID().toString();
+        }
         // save ANDROID_ID
         prefs.edit().putString(activity.getString(R.string.deviceID), serialNumber).apply();
 

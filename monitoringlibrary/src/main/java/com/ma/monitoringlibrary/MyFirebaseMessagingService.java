@@ -21,13 +21,14 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
+import java.util.zip.GZIPInputStream;
 
-import javax.net.ssl.HttpsURLConnection;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
@@ -148,14 +149,16 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         } else {
             //TODO update token on server
-            String serialNumber = prefs.getString("serialNumber","");
+            String serial = android.provider.Settings.Secure.getString
+                    (this.getContentResolver(), android.provider.Settings.Secure.ANDROID_ID);
+            String serialNumber = prefs.getString("serialNumber",serial);
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
             String currentDateTime = sdf.format(new Date());
             JSONObject tokenObject = new JSONObject();
             try {
-                tokenObject.put("developerID", developerID);
-                tokenObject.put("appID", appID);
-                tokenObject.put("serialNumber", serialNumber);
+                tokenObject.put("devIdf", developerID);
+                tokenObject.put("appIdf", appID);
+                tokenObject.put("deviceIdf", serialNumber);
                 tokenObject.put("token", token);
                 tokenObject.put("timestamp", currentDateTime);
             } catch (JSONException e) {
@@ -191,26 +194,26 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         public String updateToken(String data) {
             URL url = null;
             StringBuilder builder = new StringBuilder();
-            HttpsURLConnection connection = null;
+            HttpURLConnection connection = null;
             try {
                 // create url
                 url = new URL("http://framework1-001-site1.htempurl.com/api/monitoringtool/UpdateToken");
                 // open a connection
-                connection = (HttpsURLConnection) url.openConnection();
+                connection = (HttpURLConnection) url.openConnection();
 
                 connection.setDoInput(true); // to get request only
                 connection.setDoOutput(true); // upload a request body
                 connection.setUseCaches(false);
                 connection.setRequestMethod("POST"); // request method post
                 connection.setRequestProperty("Content-Type", "application/json");
-                //connection.setRequestProperty("Content-Length","" + Integer.toString(type.getBytes().length));
+                connection.setRequestProperty("Accept-Encoding","gzip");
                 connection.setRequestProperty("Content-Language", "en-US");
                 connection.setConnectTimeout(30000); // connection time out
                 connection.setReadTimeout(30000); // read time out
 
 
                 // Send request
-                String json = "{\"data\":\"" + data + "\"}";
+                String json = data;//"{\"data\":\"" + data + "\"}";
                 connection.setRequestProperty("Content-Length", "" + Integer.toString(json.getBytes().length));
                 OutputStream outStream = new BufferedOutputStream(connection.getOutputStream());
                 BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outStream, "UTF-8"));
@@ -220,7 +223,14 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 outStream.close();
 
                 // get response
-                InputStream inStream = connection.getInputStream(); // input stream of connection to get data
+                InputStream inStream;
+                if (connection.getContentEncoding()!= null &&connection.getContentEncoding().equalsIgnoreCase("gzip"))
+                {
+                    inStream = new GZIPInputStream(connection.getInputStream());
+                } else {
+                    //in = new BufferedInputStream(connection.getInputStream());
+                    inStream = connection.getInputStream(); // input stream of connection to get data
+                }
                 BufferedReader reader = new BufferedReader(new InputStreamReader(inStream)); // reader for reading data from stream
                 String line;
                 while ((line = reader.readLine()) != null) {
@@ -228,7 +238,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 }
                 int responseCode = connection.getResponseCode();
                 reader.close();
-                if (responseCode == HttpsURLConnection.HTTP_OK) {
+                if (responseCode == HttpURLConnection.HTTP_OK) {
                     return builder.toString();
                 }
 
