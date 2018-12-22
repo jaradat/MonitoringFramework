@@ -77,7 +77,7 @@ public class Compression {
             //Log.e("Compress2", "size before Compress : " + input.length + " byte");
 
             // Compress the bytes
-            Deflater compresser = new Deflater(Deflater.BEST_SPEED);
+            Deflater compresser = new Deflater();
             compresser.setInput(input);
             compresser.finish();
 
