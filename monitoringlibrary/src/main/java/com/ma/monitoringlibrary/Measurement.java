@@ -32,6 +32,7 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.zip.GZIPInputStream;
 
 
 import static android.content.Context.MODE_PRIVATE;
@@ -344,10 +345,14 @@ public class Measurement {
                 connection.setUseCaches(false);
                 connection.setRequestMethod("POST"); // request method post
                 connection.setRequestProperty("Content-Type", "application/json");
-                //connection.setRequestProperty("Accept-Encoding","gzip");
+                connection.setRequestProperty("Accept-Encoding","gzip");
                 connection.setRequestProperty("Content-Language", "en-US");
                 connection.setConnectTimeout(30000); // connection time out
                 connection.setReadTimeout(30000); // read time out
+
+                //long t = System.currentTimeMillis();
+                //HttpResponse response = (HttpResponse) httpclient.execute(httpPostRequest);
+                //Log.i(TAG, "HTTPResponse received in [" + (System.currentTimeMillis()-t) + "ms]");
 
 
                 // Send request
@@ -361,7 +366,14 @@ public class Measurement {
                 outStream.close();
 
                 // get response
-                InputStream inStream = connection.getInputStream(); // input stream of connection to get data
+                InputStream inStream;
+                if (connection.getContentEncoding()!= null &&connection.getContentEncoding().equalsIgnoreCase("gzip"))
+                {
+                    inStream = new GZIPInputStream(connection.getInputStream());
+                } else {
+                    //in = new BufferedInputStream(connection.getInputStream());
+                    inStream = connection.getInputStream(); // input stream of connection to get data
+                }
                 BufferedReader reader = new BufferedReader(new InputStreamReader(inStream)); // reader for reading data from stream
                 String line;
                 while((line = reader.readLine()) != null)
