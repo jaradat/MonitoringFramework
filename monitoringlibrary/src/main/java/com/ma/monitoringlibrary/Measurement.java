@@ -41,7 +41,7 @@ public class Measurement {
 
     private Context context;
     private SharedPreferences preferences;
-    private static final int reportingRate = 25;
+    private static final int reportingRate = 50;
     private static final int queuingRate = 10;
 
     private static double PercentageHttp = 0.8;
